@@ -1,5 +1,7 @@
 # Fire Type Classification using MODIS Satellite Data
 
+🚀 **Live Demo:** [deforestation-detection-fire-classification.streamlit.app](https://deforestation-detection-fire-classification.streamlit.app)
+
 A visually stunning, interactive Streamlit app for predicting fire types and exploring fire data in India using MODIS satellite readings. Features a fully immersive fire-themed UI, advanced animated effects, and rich data visualizations.
 
 ## 🚀 Features
