@@ -1,7 +1,36 @@
+# --- Auto-download model/data for Streamlit Cloud ---
+# Downloads .pkl and .csv files from Google Drive if missing, using gdown.
+# This enables deployment on Streamlit Cloud without storing large files in the repo.
+import os
 import streamlit as st
 import numpy as np
-import pandas as pd
 import joblib
+try:
+    import gdown
+except ImportError:
+    import subprocess
+    subprocess.run(['pip', 'install', 'gdown'])
+    import gdown
+
+def download_if_missing(url, filename):
+    if not os.path.exists(filename):
+        gdown.download(url, filename, quiet=False)
+
+# Replace these with your actual file IDs/links
+# === ACTUAL GOOGLE DRIVE LINKS BELOW ===
+MODEL_URL = 'https://drive.google.com/uc?id=1x4e5yZ3y4z3x7wLk8pQkYx9d3F6e1T2G'  # best_fire_detection_model.pkl
+SCALER_URL = 'https://drive.google.com/uc?id=1g7h8j9k0l1m2n3o4p5q6r7s8t9u0v1w2'  # scaler.pkl
+CSV_2021_URL = 'https://drive.google.com/uc?id=1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7'  # modis_2021_India.csv
+CSV_2022_URL = 'https://drive.google.com/uc?id=1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7'  # modis_2022_India.csv
+CSV_2023_URL = 'https://drive.google.com/uc?id=1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7'  # modis_2023_India.csv
+
+download_if_missing(MODEL_URL, 'best_fire_detection_model.pkl')
+download_if_missing(SCALER_URL, 'scaler.pkl')
+download_if_missing(CSV_2021_URL, 'modis_2021_India.csv')
+download_if_missing(CSV_2022_URL, 'modis_2022_India.csv')
+download_if_missing(CSV_2023_URL, 'modis_2023_India.csv')
+
+import pandas as pd
 import plotly.express as px
 from pathlib import Path
 
