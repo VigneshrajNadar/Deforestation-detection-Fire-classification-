@@ -18,11 +18,12 @@ def download_if_missing(url, filename):
 
 # Replace these with your actual file IDs/links
 # === ACTUAL GOOGLE DRIVE LINKS BELOW ===
-MODEL_URL = 'https://drive.google.com/uc?id=1x4e5yZ3y4z3x7wLk8pQkYx9d3F6e1T2G'  # best_fire_detection_model.pkl
-SCALER_URL = 'https://drive.google.com/uc?id=1g7h8j9k0l1m2n3o4p5q6r7s8t9u0v1w2'  # scaler.pkl
-CSV_2021_URL = 'https://drive.google.com/uc?id=1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7'  # modis_2021_India.csv
-CSV_2022_URL = 'https://drive.google.com/uc?id=1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7'  # modis_2022_India.csv
-CSV_2023_URL = 'https://drive.google.com/uc?id=1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7'  # modis_2023_India.csv
+MODEL_URL = 'https://drive.google.com/uc?id=1k3NI_5b-hb-XmIgFnGwa7bLygq8F1wt8'
+SCALER_URL = 'https://drive.google.com/uc?id=1K787fvWuCc-ojxMmiWtYT9vPb9AckYXs'
+NOTEBOOK_URL = 'https://drive.google.com/uc?id=1jiFCYZJ-7RVk5BHad7uX-ut7gfNP53l0'
+CSV_2021_URL = 'https://drive.google.com/uc?id=17UZzdC-UiKiDhgDYTz-S211nJ708s_U0'
+CSV_2022_URL = 'https://drive.google.com/uc?id=1ZFMx-GieGBHP9Sabe4Nr1kz1UQzCKzY-'
+CSV_2023_URL = 'https://drive.google.com/uc?id=1xwFXLlsiDJo7ID0FUvN94tmq7hgaViDQ'
 
 download_if_missing(MODEL_URL, 'best_fire_detection_model.pkl')
 download_if_missing(SCALER_URL, 'scaler.pkl')
