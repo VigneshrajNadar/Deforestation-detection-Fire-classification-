@@ -4,7 +4,20 @@
 
 A visually stunning, interactive Streamlit app for predicting fire types and exploring fire data in India using MODIS satellite readings. Features a fully immersive fire-themed UI, advanced animated effects, and rich data visualizations.
 
-## 🚀 Features
+## � Download Model & Data Files
+
+You can directly download all required model and data files from the following Google Drive links:
+
+- [best_fire_detection_model.pkl](https://drive.google.com/file/d/1k3NI_5b-hb-XmIgFnGwa7bLygq8F1wt8/view?usp=share_link)
+- [scaler.pkl](https://drive.google.com/file/d/1K787fvWuCc-ojxMmiWtYT9vPb9AckYXs/view?usp=share_link)
+- [modis_2021_India.csv](https://drive.google.com/file/d/17UZzdC-UiKiDhgDYTz-S211nJ708s_U0/view?usp=share_link)
+- [modis_2022_India.csv](https://drive.google.com/file/d/1ZFMx-GieGBHP9Sabe4Nr1kz1UQzCKzY-/view?usp=share_link)
+- [modis_2023_India.csv](https://drive.google.com/file/d/1xwFXLlsiDJo7ID0FUvN94tmq7hgaViDQ/view?usp=share_link)
+- [Classification_of_Fire_Types_in_India_Using_MODIS_Satellite_Data.ipynb](https://drive.google.com/file/d/1jiFCYZJ-7RVk5BHad7uX-ut7gfNP53l0/view?usp=share_link)
+
+These files will be automatically downloaded by the app on Streamlit Cloud, but you can also download them manually if running locally.
+
+## �🚀 Features
 
 - **Fire-Themed Animated UI**: Immersive, modern design with animated backgrounds, glowing/pulsing cards, bouncing icons, spinning fire emoji, rainbow shimmer, and floating ember particles for a lively, engaging experience.
 - **Prediction Page**: Enter MODIS features to predict fire type (Vegetation, Other Static Land Source, Offshore) with animated feedback, a dynamic legend, and fire burst effect on prediction.
