@@ -2,8 +2,9 @@ streamlit>=1.35.0
 pandas>=2.2.2
 numpy==1.26.4
 scikit-learn==1.4.2
-tensorflow-macos==2.16.2
+tensorflow==2.16.2
 plotly>=5.20.0
 pillow>=10.3.0
 pyarrow>=16.1.0
 joblib>=1.4.2
+gdown>=5.1.0
