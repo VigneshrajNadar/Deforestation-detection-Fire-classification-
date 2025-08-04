@@ -35,9 +35,14 @@ import pandas as pd
 import plotly.express as px
 from pathlib import Path
 
-# --- Load model and scaler ---
-model = joblib.load("best_fire_detection_model.pkl")
-scaler = joblib.load("scaler.pkl")
+# --- Load model and scaler with caching ---
+@st.cache_resource
+def load_model():
+    return joblib.load("best_fire_detection_model.pkl")
+
+@st.cache_resource
+def load_scaler():
+    return joblib.load("scaler.pkl")
 
 # --- Page config ---
 st.set_page_config(page_title="🔥 Fire Type Classifier", layout="wide", page_icon="🔥")
@@ -196,6 +201,9 @@ if page == "Prediction":
         confidence_map = {"low": 0, "nominal": 1, "high": 2}
         confidence_val = confidence_map[confidence]
         input_data = np.array([[brightness, bright_t31, frp, scan, track, confidence_val]])
+        # Lazy-load model and scaler only when needed
+        scaler = load_scaler()
+        model = load_model()
         # Ensure input has feature names for scaler (avoid warning)
         input_df = pd.DataFrame(input_data, columns=scaler.feature_names_in_)
         scaled_input = scaler.transform(input_df)
@@ -217,6 +225,11 @@ if page == "Prediction":
                 import traceback
                 st.code(traceback.format_exc(), language='python')
                 # Optionally, log the error to a file or external system here
+        del model
+        del scaler
+        import gc
+        gc.collect() # Free memory after prediction
+
     with col2:
         st.markdown("""
         <div class='fire-legend-anim fire-legend-border' style='background:rgba(20,20,20,0.92);border-radius:20px;padding:24px 22px 22px 22px;box-shadow:0 2px 18px #000a;margin-bottom:12px;position:relative;animation:pulseLegend 2.2s infinite alternate;'>
