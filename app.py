@@ -192,11 +192,11 @@ if page == "Prediction":
         <div style='background:#f7fafc;border-radius:12px;padding:20px 18px 18px 18px;box-shadow:0 2px 12px rgba(30,60,114,0.08);margin-bottom:10px;'>
         <h4 style='color:#2a5298;margin-bottom:18px;'>Input Features</h4>
         """, unsafe_allow_html=True)
-        brightness = st.number_input("Brightness", value=300.0, min_value=200.0, max_value=500.0)
-        bright_t31 = st.number_input("Brightness T31", value=290.0, min_value=200.0, max_value=350.0)
-        frp = st.number_input("Fire Radiative Power (FRP)", value=15.0, min_value=0.0, max_value=100.0)
-        scan = st.number_input("Scan", value=1.0, min_value=0.0, max_value=5.0)
-        track = st.number_input("Track", value=1.0, min_value=0.0, max_value=5.0)
+        brightness = st.slider("Brightness", min_value=200.0, max_value=500.0, value=300.0, step=0.1)
+        bright_t31 = st.slider("Brightness T31", min_value=200.0, max_value=350.0, value=290.0, step=0.1)
+        frp = st.slider("Fire Radiative Power (FRP)", min_value=0.0, max_value=100.0, value=15.0, step=0.1)
+        scan = st.slider("Scan", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
+        track = st.slider("Track", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
         confidence = st.selectbox("Confidence Level", ["low", "nominal", "high"])
         confidence_map = {"low": 0, "nominal": 1, "high": 2}
         confidence_val = confidence_map[confidence]
