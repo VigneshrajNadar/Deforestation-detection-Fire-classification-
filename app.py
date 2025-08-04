@@ -196,11 +196,14 @@ if page == "Prediction":
         confidence_map = {"low": 0, "nominal": 1, "high": 2}
         confidence_val = confidence_map[confidence]
         input_data = np.array([[brightness, bright_t31, frp, scan, track, confidence_val]])
-        scaled_input = scaler.transform(input_data)
+        # Ensure input has feature names for scaler (avoid warning)
+        input_df = pd.DataFrame(input_data, columns=scaler.feature_names_in_)
+        scaled_input = scaler.transform(input_df)
         predict_btn = st.button("🔎 Predict Fire Type", use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         if predict_btn:
-            prediction = model.predict(scaled_input)[0]
+            # Pass DataFrame with feature names to model.predict to avoid warning
+            prediction = model.predict(pd.DataFrame(scaled_input, columns=scaler.feature_names_in_))[0]
             fire_types = {
                 0: "Vegetation Fire",
                 2: "Other Static Land Source",
@@ -370,49 +373,6 @@ if page == "Data Visualization":
             year_counts = modis_df['year'].value_counts().sort_index().rename_axis('Year').reset_index(name='Count')
             fig_year_pie = px.pie(year_counts, names='Year', values='Count', title="Fires by Year (Pie Chart)", color_discrete_sequence=px.colors.qualitative.Set3)
             st.plotly_chart(fig_year_pie, use_container_width=True)
-
-        # Pie chart: confidence within each fire type
-        if {'type', 'confidence'}.issubset(modis_df.columns):
-            st.subheader("Confidence Distribution Within Each Fire Type")
-            for t in modis_df['type'].unique():
-                sub = modis_df[modis_df['type'] == t]
-                conf_counts = sub['confidence'].value_counts().rename_axis('Confidence').reset_index(name='Count')
-                fig_conf_pie = px.pie(conf_counts, names='Confidence', values='Count', title=f"Confidence for Fire Type: {t}", color_discrete_sequence=px.colors.qualitative.Pastel)
-                st.plotly_chart(fig_conf_pie, use_container_width=True)
-
-        # Stacked bar: fire type by year
-        if {'type', 'year'}.issubset(modis_df.columns):
-            st.subheader("Fire Type Distribution by Year (Stacked Bar)")
-            stacked = modis_df.groupby(['year', 'type']).size().reset_index(name='Count')
-            fig_stack = px.bar(stacked, x='year', y='Count', color='type', title="Fire Type by Year (Stacked)", barmode='stack', color_discrete_sequence=px.colors.qualitative.Alphabet)
-            st.plotly_chart(fig_stack, use_container_width=True)
-
-        # Scatter: FRP vs brightness colored by fire type
-        if {'frp', 'brightness', 'type'}.issubset(modis_df.columns):
-            st.subheader("FRP vs Brightness by Fire Type")
-            fig_scatter = px.scatter(modis_df, x='brightness', y='frp', color='type', title="FRP vs Brightness (Colored by Fire Type)", opacity=0.7, color_discrete_sequence=px.colors.qualitative.Safe)
-            st.plotly_chart(fig_scatter, use_container_width=True)
-
-        # Pairwise correlation heatmap
-        numeric_cols = modis_df.select_dtypes(include='number').columns
-        if len(numeric_cols) > 1:
-            st.subheader("Pairwise Correlation Heatmap")
-            corr = modis_df[numeric_cols].corr()
-            import plotly.figure_factory as ff
-            fig_heatmap = ff.create_annotated_heatmap(z=corr.values, x=list(corr.columns), y=list(corr.index), colorscale='Viridis')
-            fig_heatmap.update_layout(title_text="Correlation Heatmap", title_x=0.5)
-            st.plotly_chart(fig_heatmap, use_container_width=True)
-
-        # Monthly/seasonal trend (if date is available)
-        if 'acq_date' in modis_df.columns:
-            st.subheader("Monthly/Seasonal Fire Trend")
-            modis_df['acq_date'] = pd.to_datetime(modis_df['acq_date'], errors='coerce')
-            month_df = modis_df.dropna(subset=['acq_date']).copy()
-            month_df['month'] = month_df['acq_date'].dt.month
-            month_counts = month_df.groupby('month').size().reset_index(name='Count')
-            if not month_counts.empty:
-                fig_month = px.line(month_counts, x='month', y='Count', title="Monthly Fire Detection Trend", markers=True)
-                st.plotly_chart(fig_month, use_container_width=True)
 
         # Pie chart of top N locations (region/state)
         for loc_col in ['region', 'state', 'district', 'subdivision']:
