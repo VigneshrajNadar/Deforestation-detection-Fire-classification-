@@ -202,15 +202,21 @@ if page == "Prediction":
         predict_btn = st.button("🔎 Predict Fire Type", use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         if predict_btn:
-            # Pass DataFrame with feature names to model.predict to avoid warning
-            prediction = model.predict(pd.DataFrame(scaled_input, columns=scaler.feature_names_in_))[0]
-            fire_types = {
-                0: "Vegetation Fire",
-                2: "Other Static Land Source",
-                3: "Offshore Fire"
-            }
-            result = fire_types.get(prediction, "Unknown")
-            st.success(f"**Predicted Fire Type:** {result}")
+            try:
+                # Pass DataFrame with feature names to model.predict to avoid warning
+                prediction = model.predict(pd.DataFrame(scaled_input, columns=scaler.feature_names_in_))[0]
+                fire_types = {
+                    0: "Vegetation Fire",
+                    2: "Other Static Land Source",
+                    3: "Offshore Fire"
+                }
+                result = fire_types.get(prediction, "Unknown")
+                st.success(f"**Predicted Fire Type:** {result}")
+            except Exception as e:
+                st.error(f"Prediction failed: {e}")
+                import traceback
+                st.code(traceback.format_exc(), language='python')
+                # Optionally, log the error to a file or external system here
     with col2:
         st.markdown("""
         <div class='fire-legend-anim fire-legend-border' style='background:rgba(20,20,20,0.92);border-radius:20px;padding:24px 22px 22px 22px;box-shadow:0 2px 18px #000a;margin-bottom:12px;position:relative;animation:pulseLegend 2.2s infinite alternate;'>
