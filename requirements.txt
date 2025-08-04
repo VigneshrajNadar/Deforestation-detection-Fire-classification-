@@ -8,5 +8,3 @@ pillow>=10.3.0
 pyarrow>=16.1.0
 joblib>=1.4.2
 gdown>=5.1.0
-python-3.10
-# Updated python version specifier
